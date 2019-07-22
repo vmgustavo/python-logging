@@ -1,10 +1,10 @@
-import logging
+from loguru import logger
 
 
 class TheClass:
     def __init__(self):
-        self.logger = logging.getLogger(__name__)
-        self.logger.info('CLASS INIT info')
+        logger.info('CLASS INIT info')
 
-    def method(self):
-        self.logger.info('CLASS METHOD info')
+    @staticmethod
+    def method():
+        logger.info('CLASS METHOD info')

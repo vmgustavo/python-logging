@@ -1,24 +1,17 @@
-import logging
+import sys
+from loguru import logger
 
 
 class Logger:
-    def __init__(self, path=None):
-        format_string = '%(asctime)s : T%(relativeCreated)05ds : %(levelname)-8s - %(name)s : %(message)s'
-        format_date = '%Y-%m-%dT%H:%M:%S'
-
+    def __init__(self, path='log.out'):
         # BASIC CONFIG
-        if path is not None:
-            logging.basicConfig(filename=path, filemode='a', format=format_string, datefmt=format_date)
-
-        # START LOGGER
-        logger = logging.getLogger()
-        handler = logging.StreamHandler()
-        # DEFINE FORMAT
-        formatter = logging.Formatter(fmt=format_string, datefmt=format_date)
-        handler.setFormatter(formatter)
-        logger.addHandler(handler)
-
-        # LEVEL SET
-        logger.setLevel(logging.DEBUG)
-
-        self.logger = logging.getLogger(__name__)
+        format_stdout = '<green>{time:YYYY-MM-DDTHH:mm:ss}</green> | ' \
+                        '<level>{level: <8}</level> | ' \
+                        '<cyan>{name}</cyan> : <cyan>{function} [{line}]</cyan> - <level>{message}</level>'
+        format_file = '{time:YYYY-MM-DDTHH:mm:ss} | {level: <8} | {name} : {function} [{line}] - {message}'
+        logger.configure(**{
+            "handlers": [
+                {"sink": sys.stdout, "level": 'INFO', "format": format_stdout},
+                {"sink": path, "level": 'DEBUG', "format": format_file, "rotation": "1 MB"}
+            ]
+        })
