@@ -1,25 +1,31 @@
 import logging
-from time import sleep
+import logging.config as lconfig
+import json
 
-from package import function
-from package import TheClass
+from package import function, TheClass, mproc
 
-from LoggerClass import Logger
+with open('logger.json', 'rt') as f:
+    config = json.load(f)
+lconfig.dictConfig(config)
+
+logger = logging.getLogger(__name__)
 
 
 def main():
-    Logger(path='log.log')
-    logger = logging.getLogger(__name__)
-
-    logger.debug('MAIN debug')
-    logger.info('MAIN info')
-    sleep(2)
+    logger.info('### START EXECUTION ###')
+    logger.info('info')
+    logger.warning('warning')
+    logger.debug('debug')
+    logger.error('error')
+    logger.critical('critical')
 
     function()
-    sleep(3)
 
-    TheClass()
-    TheClass().method()
+    cls = TheClass()
+    cls.method()
+
+    res = mproc()
+    print(res)
 
 
 if __name__ == '__main__':
