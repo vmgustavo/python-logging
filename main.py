@@ -1,12 +1,6 @@
 import logging
-import logging.config as lconfig
-import json
 
 from package import function, TheClass, mproc
-
-with open('logger.json', 'rt') as f:
-    config = json.load(f)
-lconfig.dictConfig(config)
 
 logger = logging.getLogger(__name__)
 

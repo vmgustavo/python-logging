@@ -1,6 +1,9 @@
 from time import sleep
 import logging
 
+from LoggerClass import Logger
+Logger()
+
 logger = logging.getLogger(__name__)
 
 
